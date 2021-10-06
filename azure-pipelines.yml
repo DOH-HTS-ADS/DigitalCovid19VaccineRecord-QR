@@ -1,4 +1,11 @@
 # .NET Core Function App to Windows on Azure
+- task: AzureFunctionApp@1
+  inputs:
+    azureSubscription: 'doh-sub-vaccs-01 (c47773b2-99d9-4614-8b2c-737ab9ec3e73)-1813'
+    appType: 'functionApp'
+    appName: 'fa-waverify-qrc-dev'
+    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    deploymentMethod: 'auto'
 # Build a .NET Core function app and deploy it to Azure as a Windows function App.
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/languages/dotnet-core
