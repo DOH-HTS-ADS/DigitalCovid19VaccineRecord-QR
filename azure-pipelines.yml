@@ -53,6 +53,28 @@ stages:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'drop'
     
+    - task: CopyFiles@2
+      displayName: 'Copy files'
+      inputs:
+        sourceFolder: '$(System.DefaultWorkingDirectory)/build' 
+        Contents: '**/*'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+        cleanTargetFolder: true
+ 
+    - task: ArchiveFiles@2
+      displayName: 'Archive files'
+      inputs:
+        rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
+        includeRootFolder: false
+        archiveType: zip
+        archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+        replaceExistingArchive: true
+ 
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Build Artifacts'
+      inputs: 
+        pathtoPublish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+    
 - stage: Deploy
   displayName: Deploy solution
   jobs:
