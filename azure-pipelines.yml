@@ -38,25 +38,11 @@ stages:
         workingDir: '$(System.DefaultWorkingDirectory)'
         verbose: false
         customCommand: 'prune --production'
-
-    
-    - task: ArchiveFiles@2
-      inputs:
-        rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
-        includeRootFolder: false
-        archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-        replaceExistingArchive: true
-
-    - task: PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        ArtifactName: 'drop'
     
     - task: CopyFiles@2
       displayName: 'Copy files'
       inputs:
-        sourceFolder: '$(System.DefaultWorkingDirectory)/build' 
+        sourceFolder: '$(System.DefaultWorkingDirectory)' 
         Contents: '**/*'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
         cleanTargetFolder: true
