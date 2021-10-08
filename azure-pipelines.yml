@@ -1,0 +1,56 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  name: Azure Pipelines
+
+stages:
+- stage: Build
+  displayName: Build solution
+  jobs:  
+  - job: Build
+    displayName: Build and publish solution
+    steps:
+
+    - task: Npm@1
+      displayName: 'Install Application Dependencies'
+      inputs:
+        workingDir: '$(System.DefaultWorkingDirectory)'
+        verbose: false
+
+    - task: Npm@1
+      displayName: 'Run ''build'' script'
+      inputs:
+        command: custom
+        workingDir: '$(System.DefaultWorkingDirectory)'
+        verbose: false
+        customCommand: 'run build --if-present'
+
+    - task: Npm@1
+      displayName: 'Remove extraneous packages'
+      inputs:
+        command: custom
+        workingDir: '$(System.DefaultWorkingDirectory)'
+        verbose: false
+        customCommand: 'prune --production'
+
+    - task: ArchiveFiles@2
+      displayName: 'Archive files'
+      inputs:
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+        includeRootFolder: false
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: drop'
+
+#- stage: Deploy
+#  displayName: Deploy solution
+#  jobs:
+#  - job: Deploy
+#    displayName: Deploy solution
+#    steps:
