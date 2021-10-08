@@ -47,7 +47,7 @@ stages:
 
     - task: PublishBuildArtifacts@1
       inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        PathtoPublish: '$(System.ArtifactsDirectory)'
         ArtifactName: 'drop'
         publishLocation: 'Container'
 
@@ -62,6 +62,6 @@ stages:
         azureSubscription: 'doh-sub-vaccs-01 (c47773b2-99d9-4614-8b2c-737ab9ec3e73)-1813'
         appType: 'functionApp'
         appName: 'fa-waverify-qrc-dev'
-        package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+        package: '$(System.ArtifactsDirectory)/**/*.zip'
         deploymentMethod: 'auto'
     
