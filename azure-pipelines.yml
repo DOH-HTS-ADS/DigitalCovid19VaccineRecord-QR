@@ -65,6 +65,7 @@ stages:
         azureSubscription: 'doh-sub-vaccs-01 (c47773b2-99d9-4614-8b2c-737ab9ec3e73)-1813'
         appType: 'functionApp'
         appName: 'fa-waverify-qrc-dev'
-        package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+        package: '$(System.DefaultWorkingDirectory/**/*.zip'
         deploymentMethod: 'auto'
+    
     
