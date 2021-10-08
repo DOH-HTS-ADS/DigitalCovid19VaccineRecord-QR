@@ -38,14 +38,6 @@ stages:
         workingDir: '$(System.DefaultWorkingDirectory)'
         verbose: false
         customCommand: 'prune --production'
-    
-    - task: CopyFiles@2
-      displayName: 'Copy files'
-      inputs:
-        sourceFolder: '$(System.DefaultWorkingDirectory)' 
-        Contents: '**/*'
-        TargetFolder: '$(Build.ArtifactStagingDirectory)'
-        cleanTargetFolder: true
  
     - task: ArchiveFiles@2
       displayName: 'Archive files'
@@ -64,7 +56,7 @@ stages:
 - stage: Deploy
   displayName: Deploy solution
   jobs:
-  - job: Deploy
+  - job: Deployment
     displayName: Deploy solution
     steps:
     
