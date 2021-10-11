@@ -77,3 +77,44 @@ stages:
                 appName: 'fa-waverify-qrc-dev'
                 package: '$(System.ArtifactsDirectory)/**/*.zip'
                 deploymentMethod: 'auto'
+    - deployment: qa_deployment
+      displayName: Deploy to QA Environment
+      environment: QA
+      strategy: 
+        runOnce:
+          deploy:
+            steps:
+            - task: DownloadBuildArtifacts@1
+              inputs:
+                buildType: 'current'
+                downloadType: 'single'
+                artifactName: 'drop'
+                downloadPath: '$(System.ArtifactsDirectory)'
+            - task: AzureFunctionApp@1
+              inputs:
+                azureSubscription: 'doh-sub-vaccs-01 (c47773b2-99d9-4614-8b2c-737ab9ec3e73)-1813'
+                appType: 'functionApp'
+                appName: 'fa-waverify-qrc-qa'
+                package: '$(System.ArtifactsDirectory)/**/*.zip'
+                deploymentMethod: 'auto'
+    - deployment: prod_deployment
+      displayName: Deploy to Production Environment
+      environment: Production
+      strategy: 
+        runOnce:
+          deploy:
+            steps:
+            - task: DownloadBuildArtifacts@1
+              inputs:
+                buildType: 'current'
+                downloadType: 'single'
+                artifactName: 'drop'
+                downloadPath: '$(System.ArtifactsDirectory)'
+            - task: AzureFunctionApp@1
+              inputs:
+                azureSubscription: 'doh-sub-vaccs-01 (c47773b2-99d9-4614-8b2c-737ab9ec3e73)-1813'
+                appType: 'functionApp'
+                appName: 'fa-waverify-qrc-prod'
+                package: '$(System.ArtifactsDirectory)/**/*.zip'
+                deploymentMethod: 'auto'
+            
