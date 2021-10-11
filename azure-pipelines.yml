@@ -10,7 +10,7 @@ pool:
   name: Azure Pipelines
 
 stages:
-- stage: Build
+- stage: build
   displayName: Build solution
   jobs:  
   - job: Build
@@ -53,9 +53,9 @@ stages:
       inputs: 
         pathtoPublish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
     
-- stage: Deploy
+- stage: dev_deployment
   displayName: Deploy solution to Development
-  dependsOn: []
+  dependsOn: [build]
   jobs:
     - deployment: dev_deployment
       displayName: Deploy to Development Environment
@@ -77,6 +77,11 @@ stages:
                 appName: 'fa-waverify-qrc-dev'
                 package: '$(System.ArtifactsDirectory)/**/*.zip'
                 deploymentMethod: 'auto'
+                
+- stage: qa_deployment
+  displayName: Deploy solution to QA
+  dependsOn: [dev_deployment]
+  jobs:  
     - deployment: qa_deployment
       displayName: Deploy to QA Environment
       environment: QA
@@ -91,6 +96,11 @@ stages:
                 appName: 'fa-waverify-qrc-qa'
                 package: '$(System.ArtifactsDirectory)/**/*.zip'
                 deploymentMethod: 'auto'
+
+- stage: prod_deployment
+  displayName: Deploy solution to Production
+  dependsOn: [qa_deployment]
+  jobs:     
     - deployment: prod_deployment
       displayName: Deploy to Production Environment
       environment: Production
