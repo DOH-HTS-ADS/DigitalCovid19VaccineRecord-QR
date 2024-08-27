@@ -17,13 +17,13 @@ stages:
     displayName: Build and publish solution
     steps:
 
-    - task: Npm@1
+    - task: Npm@1.238.1
       displayName: 'Install Application Dependencies'
       inputs:
         workingDir: '$(System.DefaultWorkingDirectory)'
         verbose: false
 
-    - task: Npm@1
+    - task: Npm@1.238.1
       displayName: 'Run ''build'' script'
       inputs:
         command: custom
@@ -31,7 +31,7 @@ stages:
         verbose: false
         customCommand: 'run build --if-present'
 
-    - task: Npm@1
+    - task: Npm@1.238.1
       displayName: 'Remove extraneous packages'
       inputs:
         command: custom
